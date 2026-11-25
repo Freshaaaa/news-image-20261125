@@ -1,16 +1,12 @@
-// news-image-20261125 entry (Node 22, standard library only).
-// The poster lives in this repository as entry.png; the program copies it
-// to the output directory the grader provides. Nothing is read from the
-// network or from any environment secret: the image is shipped in the repo
-// and copied byte for byte, so two runs always write identical bytes.
-// Rebuilt in the finish session (post-opening) for bundle authorship.
-//
-// Run locally with:
-//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+// main.ts — entry point for the news-image-20261125 poster.
+// Copies the rendered entry.png into the output directory.
+// Node 22, standard library only. No network, no extra dependencies.
+import { copyFileSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { copyFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
-
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const here = dirname(fileURLToPath(import.meta.url));
+const outDir = process.argv[2] ?? join(here, "output");
 mkdirSync(outDir, { recursive: true });
-copyFileSync(new URL('./entry.png', import.meta.url), join(outDir, 'entry.png'));
+copyFileSync(join(here, "entry.png"), join(outDir, "entry.png"));
+console.log("entry.png -> " + join(outDir, "entry.png"));
