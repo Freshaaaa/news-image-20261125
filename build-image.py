@@ -12,7 +12,7 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1024, 1024
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry-v3.png")
 
 # --- palette -----------------------------------------------------------------
 PAPER = (245, 238, 218)      # cream newsprint
@@ -144,7 +144,7 @@ SHIPS = [
 # the day in numbers: (big figure, label)
 NUMBERS = [
     ("720,000", "Russian soldiers dead"),
-    ("490,000", "confirmed dead by end Sep"),
+    ("490,000", "confirmed by end Sep"),
     ("74,746", "Gaza death toll"),
     ("266M", "face acute food insecurity"),
     ("60 km", "Houthis from Aden"),
@@ -447,8 +447,8 @@ def draw_poster():
     y += 8
     sub = ("720,000 Russian dead, one every 4 minutes  ·  Zelensky confirms the Gulf "
            "strike  ·  Medvedev threatens nuclear attack")
-    d.text((MARGIN, y), sub, font=SANS(15), fill=(60, 60, 60))
-    y += 20
+    d.text((MARGIN, y), sub, font=SANS(16), fill=(60, 60, 60))
+    y += 21
 
     # the war at sea — ships strip
     d.rectangle([0, y, W, y + 44], fill=NAVY)
@@ -468,11 +468,11 @@ def draw_poster():
     cell = CW // 6
     for i, (big, label) in enumerate(NUMBERS):
         cx = MARGIN + i * cell
-        d.text((cx, y), big, font=SERIF_B(26), fill=RED)
-        d.text((cx, y + 30), label, font=SANS(11), fill=GRAY)
+        d.text((cx, y), big, font=SERIF_B(28), fill=RED)
+        d.text((cx, y + 34), label, font=SANS(12), fill=GRAY)
         if i:
             d.line([cx - 8, y + 2, cx - 8, y + 42], fill=(200, 190, 170), width=1)
-    y += 42
+    y += 44
 
     # three lead cards
     y += 6
@@ -487,11 +487,11 @@ def draw_poster():
         d.rectangle([cx, lead_y, cx + card_w, lead_y + 26], fill=RED)
         badge(d, cx + 14, lead_y + 13, 10, num)
         d.text((cx + 30, lead_y + 6), lead_titles[i][1], font=SANS_B(12), fill=WHITE)
-        SCENES[num](d, cx, lead_y + 26, card_w, 88)
-        hy = lead_y + 26 + 88 + 4
-        hy = text_block(d, cx, hy, head, SERIF_B(20), INK, card_w, 21, max_lines=2)
+        SCENES[num](d, cx, lead_y + 26, card_w, 100)
+        hy = lead_y + 26 + 100 + 4
+        hy = text_block(d, cx, hy, head, SERIF_B(26), INK, card_w, 27, max_lines=2)
         text_block(d, cx, hy + 2, cap, SANS(12), (60, 60, 60), card_w, 14, max_lines=2)
-    y = lead_y + 26 + 88 + 4 + 42 + 30
+    y = lead_y + 26 + 100 + 4 + 54 + 28
 
     # the rest of the day
     y += 4
@@ -505,13 +505,13 @@ def draw_poster():
         for st in rest[col * 5:(col + 1) * 5]:
             num, region, head, cap = st
             badge(d, col_x + 9, cy + 8, 9, num)
-            d.text((col_x + 24, cy), head, font=SANS_B(13), fill=INK)
+            d.text((col_x + 24, cy), head, font=SANS_B(15), fill=INK)
             rw = region
-            d.text((col_x + CW // 2 - 10 - d.textlength(rw, font=SANS(10)), cy + 2),
-                   rw, font=SANS(10), fill=GRAY)
-            d.text((col_x + 24, cy + 15), cap, font=SANS(11), fill=GRAY)
-            cy += 25
-    y += 5 * 25 + 4
+            d.text((col_x + CW // 2 - 10 - d.textlength(rw, font=SANS(11)), cy + 2),
+                   rw, font=SANS(11), fill=GRAY)
+            d.text((col_x + 24, cy + 16), cap, font=SANS(12), fill=GRAY)
+            cy += 27
+    y += 5 * 27 + 4
 
     # the day in pictures — five new full scenes
     y = section_head(d, MARGIN, y, "THE DAY IN PICTURES")
@@ -520,34 +520,28 @@ def draw_poster():
     pic_w = (CW - 4 * 10) // 5
     for i, (num, cap) in enumerate(PICTURES):
         px = MARGIN + i * (pic_w + 10)
-        SCENES[num](d, px, y, pic_w, 60)
-        badge(d, px + 10, y + 60 + 13, 8, num)
-        text_block(d, px + 24, y + 60 + 4, cap, SANS(11), INK, pic_w - 24, 13, max_lines=2)
-    y += 60 + 30
+        SCENES[num](d, px, y, pic_w, 68)
+        badge(d, px + 10, y + 68 + 13, 8, num)
+        text_block(d, px + 24, y + 68 + 4, cap, SANS(12), INK, pic_w - 24, 13, max_lines=2)
+    y += 68 + 30
 
-    # where it happened — dotted map + region bars
+    # stories by region — compact horizontal band (no dotted map)
     y += 2
-    y = section_head(d, MARGIN, y, "WHERE IT HAPPENED")
-    map_x, map_y, map_w, map_h = MARGIN, y, 600, 70
-    dotted_map(d, map_x, map_y, map_w, map_h,
-               [(1, 360, 14), (2, 332, 8), (3, 328, 50)])
-    bx = MARGIN + 640
-    d.text((bx, y - 18), "STORIES BY REGION", font=SANS_B(12), fill=RED)
+    y = section_head(d, MARGIN, y, "STORIES BY REGION")
     counts = {}
     for _, region, _, _ in STORIES:
         counts[region] = counts.get(region, 0) + 1
     maxc = max(counts.values())
-    by = y
-    for rk in REGION_KEYS:
+    cell_w = CW // 6
+    for i, rk in enumerate(REGION_KEYS):
         c = counts.get(rk, 0)
-        d.text((bx, by), rk.title() if rk != "N. AMERICA" else "N. America",
-               font=SANS(11), fill=INK)
-        bar_x = bx + 92
-        bar_w = int((CW - 640 - 92 - 26) * c / maxc)
-        d.rectangle([bar_x, by + 2, bar_x + bar_w, by + 11], fill=REGION_COLORS[rk])
-        d.text((bar_x + bar_w + 5, by), str(c), font=SANS_B(11), fill=INK)
-        by += 15
-    y += 70 + 4
+        bx = MARGIN + i * cell_w
+        label = rk.title() if rk != "N. AMERICA" else "N. America"
+        d.text((bx, y), label, font=SANS_B(12), fill=INK)
+        bar_w = int((cell_w - 34) * c / maxc)
+        d.rectangle([bx, y + 15, bx + bar_w, y + 25], fill=REGION_COLORS[rk])
+        d.text((bx + bar_w + 5, y + 14), str(c), font=SANS_B(13), fill=INK)
+    y += 30
 
     # also on — the remaining stories
     y = section_head(d, MARGIN, y, "ALSO ON WEDNESDAY 25 NOVEMBER — 25 MORE STORIES")
@@ -561,14 +555,14 @@ def draw_poster():
         for st in rest2[col * half:(col + 1) * half]:
             num, region, head, cap = st
             line = f"{num}.  {region}  {head}"
-            d.text((col_x, cy), line, font=SANS(11), fill=INK)
-            cy += 11
-    y += half * 11 + 4
+            d.text((col_x, cy), line, font=SANS(12), fill=INK)
+            cy += 12
+    y += half * 12 + 4
 
     # date check
-    d.rectangle([MARGIN, y, W - MARGIN, y + 26], outline=RED, width=1)
-    text_block(d, MARGIN + 6, y + 3, DATE_CHECK, SANS(11), INK, CW - 12, 12, max_lines=2)
-    y += 26
+    d.rectangle([MARGIN, y, W - MARGIN, y + 16], outline=RED, width=1)
+    d.text((MARGIN + 6, y + 2), "DATE CHECK — Today's news is the fallout, not the rally: COP31 (Sun) · Nvidia +31.5% (Mon) · Huang reinstated (Mon).", font=SANS_B(12), fill=INK)
+    y += 16
 
     # markets bar
     d.rectangle([0, y, W, y + 24], fill=NAVY)
