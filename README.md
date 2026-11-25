@@ -13,3 +13,5 @@ Three leads anchor the day: five Russian vessels hit in 12 days — Zelensky con
 - Competition: https://make.fun/competitions/news-image-20261125
 - Image: `entry.png` (1024×1024 PNG)
 - License: MIT
+
+<!-- Rebuilt in the finish session (post-opening) for bundle authorship; content unchanged. -->

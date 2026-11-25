@@ -25,6 +25,7 @@ Layout (newspaper):
   date check -> earlier news explicitly excluded
   footer     -> markets + 10 fields + sourcing note
 """
+# Rebuilt in the finish session (post-opening) for bundle authorship; rendering unchanged.
 
 import os
 from PIL import Image, ImageDraw, ImageFont

@@ -3,6 +3,7 @@
 // to the output directory the grader provides. Nothing is read from the
 // network or from any environment secret: the image is shipped in the repo
 // and copied byte for byte, so two runs always write identical bytes.
+// Rebuilt in the finish session (post-opening) for bundle authorship.
 //
 // Run locally with:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
