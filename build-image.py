@@ -3,9 +3,9 @@
 Wednesday 25 November 2026. Follows Larisha's news-24 structure (top 50)
 and the v3 lesson from news-24: FULL-SCENE vector illustrations, not flat
 icons. The day's news is dominated by the war at sea and its human cost,
-so the three leads are drawn as real scenes: the 5-ship campaign in the
-Gulf of Finland and off Benghazi (cargo ship + corvette + drone boats),
-a memorial field for the 720,000 Russian dead, and a missile under a red
+so the three leads are drawn as real scenes: a memorial field for the
+720,000 Russian dead, the 5-ship campaign in the Gulf of Finland and off
+Benghazi (cargo ship + corvette + drone boats), and a missile under a red
 warning sky for Medvedev's nuclear threat. All story data is embedded as
 literals, verified live 25 Nov 2026 against Reuters (Sybiha / Zelensky
 confirmation, Sparta II, Merkury), CNN / Mediazona / Meduza (720,000 dead,
@@ -34,7 +34,7 @@ W, H = 1024, 1024
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
 
 TITLE = ("Wednesday 25 November 2026: 28 stories, 6 regions, 10 fields "
-         "\u2014 5 ships hit in 12 days, 720,000 Russian dead, nuclear threat")
+         "\u2014 720,000 Russian dead, 5 ships hit in 12 days, nuclear threat")
 
 # --- palette (newspaper: cream paper, navy, red, gold) --------------------
 PAPER = (244, 238, 222)
@@ -66,14 +66,14 @@ REGION_COLORS = {
 # --- story data ------------------------------------------------------------
 # Leads: (big, headline, detail, region label, art kind, number)
 LEADS = [
-    ("5 SHIPS", "FIVE SHIPS HIT IN 12 DAYS",
-     "Zelensky confirms the Gulf of Finland strike on Sparta II; the "
-     "Merkury corvette was sunk off Benghazi.",
-     "1 GULF OF FINLAND \u00b7 WAR AT SEA", "ships", 1),
     ("720,000", "720,000 RUSSIAN DEAD",
      "490,000 confirmed by Rosstat; one death every 4 minutes since "
      "2022, leaked data show.",
-     "2 RUSSIA \u00b7 THE HUMAN COST", "memorial", 2),
+     "1 RUSSIA \u00b7 THE HUMAN COST", "memorial", 1),
+    ("5 SHIPS", "FIVE SHIPS HIT IN 12 DAYS",
+     "Zelensky confirms the Gulf of Finland strike on Sparta II; the "
+     "Merkury corvette was sunk off Benghazi.",
+     "2 GULF OF FINLAND \u00b7 WAR AT SEA", "ships", 2),
     ("NUCLEAR", "MEDVEDEV THREATENS NUCLEAR STRIKE",
      "\u201cPreventive nuclear attack\u201d threat; Putin calls retaliation "
      "\u201cinevitable\u201d as Kyiv holds on.",
@@ -228,12 +228,12 @@ def lonlat_to_cell(lon, lat):
 
 
 # lead pins: (lon, lat, number)
-# 1 = Gulf of Finland (lead 1, Sparta II). 2 = Moscow (lead 2, the toll).
-# 3 = Benghazi (Merkury sinking, the other half of lead 1's campaign);
-# lead 3's nuclear threat is a Moscow story, covered by pin 2's region.
+# 1 = Moscow (lead 1, the 720,000 toll). 2 = Gulf of Finland (lead 2,
+# Sparta II). 3 = Benghazi (Merkury sinking, the other half of lead 2's
+# campaign); lead 3's nuclear threat is a Moscow story, covered by pin 1.
 PINS = [
-    (25.0, 59.5, 1),    # Gulf of Finland
-    (37.6, 55.7, 2),    # Moscow, Russia
+    (37.6, 55.7, 1),    # Moscow, Russia
+    (25.0, 59.5, 2),    # Gulf of Finland
     (20.0, 32.0, 3),    # Benghazi, Libya
 ]
 
@@ -416,9 +416,9 @@ def main():
     d.text((M, 34), "Wednesday 25 November 2026", font=serif_b(40),
            fill=INK)
     d.rectangle([M, 82, M + 210, 86], fill=RED)
-    sub = ("Zelensky confirms the Gulf of Finland strike \u00b7 720,000 "
-           "Russian dead, one every 4 minutes \u00b7 Medvedev threatens a "
-           "preventive nuclear attack")
+    sub = ("720,000 Russian dead, one every 4 minutes \u00b7 Zelensky "
+           "confirms the Gulf of Finland strike \u00b7 Medvedev threatens "
+           "a preventive nuclear attack")
     d.text((M, 92), sub, font=serif(13), fill=GREY_DARK)
 
     # --- war at sea strip --------------------------------------------------
