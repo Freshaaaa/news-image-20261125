@@ -3,13 +3,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const source = join(here, "entry.png");
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
-const target = join(outDir, "entry.png");
-
-if (!existsSync(source)) {
-  throw new Error("entry.png missing next to main.ts: " + source);
+const src = join(here, "entry.png");
+const destDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+mkdirSync(destDir, { recursive: true });
+const dest = join(destDir, "entry.png");
+if (!existsSync(src)) {
+  throw new Error("entry.png missing next to main.ts");
 }
-mkdirSync(outDir, { recursive: true });
-copyFileSync(source, target);
-console.log("entry.png -> " + target);
+copyFileSync(src, dest);
+console.log(`copied entry.png to ${dest}`);
