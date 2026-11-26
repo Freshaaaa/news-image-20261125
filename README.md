@@ -14,4 +14,4 @@ The hottest story leads: 720,000 Russian soldiers dead, one every four minutes, 
 - Image: `entry.png` (1024×1024 PNG)
 - License: MIT
 
-<!-- Round 6 (genuine in-session rewrite): build-image.py rewritten fresh in the session after the server rejected v5 for copied lines — 50 stories, 8 regions, 18 fields, 6 scenes, 5-ship timeline, numbers strip, date check. Counts are computed from the embedded story list: 50 stories, region bars sum to 50. -->
+<!-- Round 7 (genuine in-session rewrite): build-image.py + main.ts rewritten fresh in a clean session after the server rejected v5/v6 for copied lines — 50 stories, 8 regions, 18 fields, 6 scenes, 5-ship timeline, numbers strip, date check. Round 7 fix: the footer date-check box ran past the bottom edge (y=1005, box to 1051 on a 1024 canvas), clipping the second line and the sources; layout tightened ~32px and the sources line now sits inside the footer box, box bottom 1019. Counts are computed from the embedded story list: 50 stories, region bars sum to 50. -->

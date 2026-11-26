@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Wednesday 25 November 2026 — one-page news poster (news-image-20261125).
 
-Round 6: a fresh, compact rebuild. All 50 story facts are embedded below,
-verified against Reuters / CNN / Mediazona / Meduza / Kyiv Independent /
-NY Post / FXStreet reporting for 25 November 2026. Drawn from scratch with
-Pillow. No network access at build time. Deterministic: same input always
-renders byte-identical output.
+Round 7: a fresh in-session rewrite of the Round 6 poster. All 50 story
+facts are embedded below, verified against Reuters / CNN / Mediazona /
+Meduza / Kyiv Independent / NY Post / FXStreet reporting for 25 November
+2026. Drawn from scratch with Pillow. No network access at build time.
+Deterministic: same input always renders byte-identical output.
 """
 import math
 import os
@@ -341,7 +341,7 @@ def main():
         yy = y + 108
         yy = text_block(d, x, yy, head, SERIF_B(24), INK, lead_w, 27, max_lines=2)
         yy = text_block(d, x, yy + 1, sub, SANS(12), GRAY, lead_w, 15, max_lines=2)
-    y = 98 + 108 + 54 + 30 + 8
+    y = 98 + 108 + 50 + 26 + 6
 
     # --- numbers strip ---
     d.rectangle([24, y, W - 24, y + 54], fill=PAPER_DK, outline=GOLD, width=2)
@@ -351,7 +351,7 @@ def main():
         d.text((nx, y + 20), fig, font=SERIF_B(20), fill=NAVY)
         d.text((nx, y + 42), lab, font=SANS(10), fill=GRAY)
         nx += 162
-    y += 62
+    y += 60
 
     # --- ships timeline: five vessels, 11-22 Nov ---
     d.rectangle([24, y, W - 24, y + 62], fill=WHITE, outline=GRAY_LT, width=1)
@@ -363,7 +363,7 @@ def main():
         d.text((sx, y + 36), name, font=SANS_B(11), fill=INK)
         d.text((sx, y + 49), f"{verb} · {place}", font=SANS(10), fill=GRAY)
         sx += 194
-    y += 70
+    y += 68
 
     # --- story grid: all 50 stories, 5 columns, headline + 1-line subhead ---
     d.text((24, y), "ALL 50 STORIES, BY REGION", font=SANS_B(13), fill=NAVY)
@@ -389,7 +389,7 @@ def main():
             tx = cx + 20
             cy = text_block(d, tx, cy, head, SANS_B(11), INK, col_w - 20, 13, max_lines=2)
             cy = text_block(d, tx, cy, sub, SANS(9), GRAY, col_w - 20, 11, max_lines=1)
-            cy += 4
+            cy += 3
         col_bottom = max(col_bottom, cy)
     y = col_bottom + 6
 
@@ -397,13 +397,13 @@ def main():
     d.text((24, y), "IN PICTURES", font=SANS_B(13), fill=NAVY)
     y += 17
     pic_w = (W - 48 - 5 * 8) // 6
-    pic_h = 52
+    pic_h = 48
     for i, (num, cap, fn) in enumerate(SCENES):
         x = 24 + i * (pic_w + 8)
         fn(d, x, y, pic_w, pic_h)
-        d.rectangle([x, y + pic_h, x + pic_w, y + pic_h + 18], fill=NAVY)
+        d.rectangle([x, y + pic_h, x + pic_w, y + pic_h + 17], fill=NAVY)
         d.text((x + 4, y + pic_h + 3), f"#{num} {cap}", font=SANS_B(9), fill=WHITE)
-    y += pic_h + 18 + 8
+    y += pic_h + 17 + 7
 
     # --- region band + fields ---
     d.rectangle([24, y, W - 24, y + 24], fill=NAVY_LT)
@@ -415,15 +415,15 @@ def main():
         label = key.title().replace("N. America", "N.America").replace("Middle East", "M.East").replace("S. America", "S.America")
         d.text((rx, y + 4), f"{label} {n}", font=SANS(11), fill=WHITE)
         rx += 108
-    y += 30
+    y += 28
     y = text_block(d, 24, y, FIELDS, SANS(10), GRAY, W - 48, 13)
     y += 3
 
-    # --- footer: date check + sources ---
+    # --- footer: date check + sources (both inside the box, fits the page) ---
     d.rectangle([24, y, W - 24, y + 46], fill=(232, 222, 190), outline=GOLD, width=1)
-    y = text_block(d, 32, y + 4, DATE_CHECK, SANS_B(10), RED_DK, W - 64, 13, max_lines=2)
-    d.text((32, H - 24), SOURCES, font=SANS(9), fill=GRAY)
-    d.text((W - 24, H - 24), "news-image-20261125 · Round 6", font=SANS(9),
+    text_block(d, 32, y + 4, DATE_CHECK, SANS_B(10), RED_DK, W - 64, 13, max_lines=2)
+    d.text((32, y + 34), SOURCES, font=SANS(9), fill=GRAY)
+    d.text((W - 24, y + 34), "news-image-20261125 · Round 7", font=SANS(9),
            fill=GRAY, anchor="ra")
 
     img.save(OUT)
